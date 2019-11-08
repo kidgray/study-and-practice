@@ -1,0 +1,118 @@
+===== Project Planning and Architecture Step =====
+
+- START BY IDENTIFYING THE MOST FUNDAMENTAL, CRUCIAL, CORE FUNCTIONS THAT
+WE WANT OUR APP TO PERFORM.
+
+- Start coding THOSE functionalities (the core ones). To do this, think about the functionality
+and HOW exactly the app will achieve it. For example, in the budget app, adding an item to the list(s)
+is done by CLICKING A BUTTON - we know that when we
+want to do things on the click of a button, we can use an EVENT HANDLER.
+
+- When programming, take note of which functionalities have more to do with USER INTERFACE
+and which tasks have more to do with INTERNAL DATA MANIPULATION. In this project, we're using a
+UI MODULE, DATA MODULE, and CONTROLLER MODULE.
+
+===== LECTURE: Reading Input Data =====
+RECALL that the App Controller is the place where we tell the other modules
+what we want them to do.
+
+===== LECTURE: How and Why to Create an Initialization Function =====
+
+We can use initialization functions to organize our code so it's less haphazard.
+
+- EACH TIME THAT WE CAN AGGREGATE ALL OF OUR DATA INTO ONE PLACE NEATLY, WE SHOULD DEFINITELY DO THAT!
+It's ALWAYS better to have one data structure rather than many variables and structures floating around.
+
+===== LECTURE: ADDING A NEW ITEM TO OUR BUDGET CONTROLLER =====
+
+In this lecture we will learn how to avoid conflicts in our data structures,
+as well as how to pass data from one module to another.
+
+===== LECTURE: ADDING A NEW ITEM TO THE UI =====
+
+What we'll learn in this lecture:
+
+    - A technique for adding big chunks of HTML into the DOM (Document Object Model)
+
+    - How to replace parts of strings
+    
+    - How to do DOM manipulation using the insertAdjacentHTML() method.
+
+===== LECTURE: Cleaing our Input Fields =====
+
+In this lecture we will learn:
+
+    - How to clear HTML Fields
+
+    - How to use querySelectorAll
+
+    - How to convert a list to an array
+
+    - A better way to loop over an array than for loops: forEach.
+
+===== LECTURE: Updating the Budget Controller =====
+
+In this lecture we will learn:
+
+    - How to convert field inputs to numbers
+    - How to prevent incorrect/false inputs
+
+===== LECTURE: EVENT DELEGATION =====
+
+EVENT DELEGATION is an important concept in JavaScript. First, we need to talk
+about EVENT BUBBLING. 
+
+EVENT BUBBLING means that when an event occurs or triggers on some DOM element
+(such as clicking a button, for example), that exact same event is also triggered
+on all of that DOM element's parent elements.
+
+The element that caused the event to first trigger or occur (in our example, that's the button)
+is called the TARGET ELEMENT. The TARGET ELEMENT is stored as a property in the EVENT OBJECT;
+therefore, all the parent elements of the target element will know what the target element of the
+event was.
+
+This brings us to EVENT DELEGATION. Basically, if the event "bubbles" up the DOM tree (i.e. propagates up)
+and we know which element triggered the event (i.e. the target element), then we can just attach an event
+handler to a parent element and wait for the event to "bubble" (propagate) up to it, whereupon we can do
+whatever we wanted to do to our target element.
+
+--- WHY WOULD WE WANT TO USE EVENT DELEGATION? ---
+
+There are basically two use cases for the EVENT DELEGATION:
+
+    - When there is an element with many child elements that we are interested in
+
+        * In this case, instead of adding an event handler to ALL of the child elements
+        we want to manipulate, we can simply add it to the parent and then determine
+        which child element the event was fired (triggered) on.
+
+    - When we want an event handler attached to an element that is not yet in the DOM
+    when our page is loaded.
+
+        * This is because we can't add an event handler to an element that's not yet
+        on the page.
+
+
+
+===== LECTURE: Setting up the Delete Event Listener Using Event Delegation =====
+Lecture topics:
+
+- How to use Event Delegation in practice
+
+- How to use IDs in HTML to connect the UI with the data Model
+
+- How to use the parentNode property for DOM traversal
+
+===== LECTURE: DELETING AN ITEM FROM THE BUDGET CONTROLLER =====
+Lecture topics:
+
+- Yet another method to loop over an array: the map() method
+
+- How to remove elements from an array using the splice() method
+
+===== LECTURE: Finishing Touches Improving the UX ====
+Lecture topics:
+
+- How and when to use CHANGE EVENTS
+
+- A change 
