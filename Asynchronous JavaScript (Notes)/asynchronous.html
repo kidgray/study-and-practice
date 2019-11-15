@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Asynchronous JavaScript</title>
+</head>
+<body>
+    <h1>Asynchronous JavaScript</h1>
+    <script>
+        // All we really have to do to make the Fetch API work is
+        // use the fetch() function.
+
+        // We have to pass the URL where the API is located into
+        // the function.
+        fetch('https://crossorigin.me/https://www.metaweather.com/api/location/2487956/')
+        .then(result =>
+        {
+            console.log(result);
+            return result.json();
+        })
+        .then(data =>
+        {
+            console.log(data);
+        })
+        .catch(error =>
+        {
+            console.log(error);
+        });
+
+        // The FETCH API gets our data and returns a promise. Like any Promise, it can
+        // return the data that we want (resolved) or an error (rejected). We must
+        // consume the promise in order to do something with our return value.
+
+        // If you look at the body of the result in the console, you'll see the term
+        // "ReadableStream". That means that the value must be processed with JSON before
+        // we can get the result we actually want. We have to convert it from JSON to JavaScript.
+
+        // How do we convert from JSON to JavaScript? We just use the JSON method. Note that this
+        // method returns a Promise, so you have to consume its result (with the then() method
+        // or await expression, presumably).
+
+        // ===== ASYNC/AWAIT METHOD =====
+
+        // Let's do the same thing we did above, but with the async
+        // and await keywords.
+
+        async function getWeatherAW(woeid)
+        {
+            const result = await fetch(`https://crossorigin.me/https://www.metaweather.com
+            /api/location/${woeid}/`);
+
+            const data = await result.json();
+
+            console.log(data);
+
+            // Note: to handle errors with async/await expressions, we don't use the .catch()
+            // method that we use for then()/catch() structures. Instead, we use try/catch
+            // blocks (the Java-style ones.)
+            
+        }
+
+        getWeatherAW();
+        getWeatherAW();
+
+    </script>
+</body>
+</html>

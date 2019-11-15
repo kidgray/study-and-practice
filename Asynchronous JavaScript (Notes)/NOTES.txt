@@ -1,0 +1,285 @@
+===== INTRODUCTION =====
+Simply put, ASYNCHRONOUS JAVASCRIPT refers to code that runs in the background
+while the main application code executes. This is typically used for things like
+requesting data from a remote server (like an API).
+
+
+===== LECTURE: An Example of Asynchronous JavaScript =====
+
+POINTS OF INTEREST
+
+- You can use the ARROW FUNCTION syntax in a simple assignment statement.
+That is, the statement
+
+const functionExample = () => { //Code goes here }
+
+is valid. You don't have to use the function keyword on the right hand side of an
+assignment statement to make it work.
+
+A simple example of Asynchronous JavaScript can be seen by using the setTimeout() function,
+which takes two parameters: a callback function that will be executed after a specified amount
+of time has elapsed, and the amount of time that must elapse before the callback function is
+executed.
+
+===== LECTURE: Understanding Asynchronous JavaScript: The Event Loop =====
+
+The whole idea behind Asynchronous Code is that we want to always keep our application
+running and executing useful code. If there's some process that will take time to complete
+in our code, we don't want it to "stall" the application while it completes that process.
+
+Consider a function that processes an image. If a large image is passed in, it may take some
+time for the image to be processed; consequently, rather than waiting for that function to
+complete its work, we let the function do its job in the background while the application moves
+on and continues execution. We typically do this by providing a callback function to the
+background function which will tell it what to do when it completes its task.
+
+- WHAT IS THE EVENT LOOP? -
+The Event Loop is part of what happens behind the scenes of JavaScript when we call
+a function or handle events such as DOM events.
+
+The WEB APIs, EXECUTION STACK, and the MESSAGE QUEUE together make up the JAVASCRIPT RUNTIME,
+which is responsible for how JavaScript works when our code is executed.
+
+WEB APIs come from outside the JavaScript engine. These include things such as methods
+like setTimeout(), HTTP requests for AJAX, geolocation, local storage, etc. Because these things
+come from outside the JavaScript engine, they can keep running in the background while the rest 
+of our javascript code continues executing.
+
+So when the setTimeout() function is called, for example, a new Execution Context is created
+and placed on the EXECUTION STACK, and the setTimeout function's timer is placed in the
+WEB API's environment. It then sits in that environment until its timer expires.
+
+When the timer expires, the callback function that was attached to the timer (the one that was
+running in the WEB API's environment) is placed in the MESSAGE QUEUE, where it will wait to be
+executed when the EXECUTION STACK is empty.
+
+In the case of EVENT HANDLERS, they also sit in the WEB API environment waiting for their
+corresponding event to occur. When the event does occur, its associated callback function
+is placed in the MESSAGE QUEUE, where it will wait for the EXECUTION STACK to be empty
+so that an EXECUTION CONTEXT can be created for it, whereupon it will execute.
+
+The JOB OF THE EVENT LOOP is to constantly monitor the MESSAGE QUEUE and the EXECUTION STACK,
+and to push the first callback function in line onto the execution stack as soon as it is empty.
+
+===== LECTURE: THE OLD WAY: ASYNCHRONOUS JAVASCRIPT WITH PROMISES =====
+
+Callbacks are the more traditional way of dealing with asynchronous code in JavaScript.
+
+The setTimeout() function can take another argument that comes after the timer (2nd argument).
+This argument will be passed to the callback function (the first argument to setTimeout()) as
+an argument to THAT function.
+
+As it turns out, setTimeout() isn't a very good way of setting up asynchronous code; the 
+need to nest calls to setTimeout() when multiple asynchronous functionalities are required results
+in heavily nested, triangular-shaped calls to setTimeout() that JavaScript developers sometimes 
+refer to as "Callback hell".
+
+As a result, JavaScript's ES6 introduces a mechanism called PROMISES that provides a nicer,
+cleaner syntax for asynchronous code.
+
+===== LECTURE: PROMISES =====
+
+- WHAT IS A PROMISE IN JAVASCRIPT? -
+
+    - A PROMISE is an OBJECT THAT KEEPS TRACK ABOUT WHETHER A CERTAIN
+    ASYNCHRONOUS (i.e. TIMER) EVENT HAS ALREADY OCCURRED OR NOT.
+
+    - A PROMISE also DETERMINES WHAT HAPPENS AFTER THE EVENT ACTUALLY OCCURS.
+
+A PROMISE sort of implements the concept of a "future value" that we're expecting.
+
+- STATES OF PROMISES -
+
+A PROMISE can have multiple different states:
+
+    - PENDING: Before the event the promise is waiting for has happened.
+
+    - SETTLED/RESOLVED: After the event the promise is waiting for has occurred.
+    
+        - FULFILLED: If a result is available after a PROMISE is SETTLED
+
+        - REJECTED: If an error occurs
+
+PROMISES are OBJECTS. So, to create a PROMISE, we use the new keyword and the
+Promise() constructor. The Promise() constructor takes an argument: a function called
+the EXECUTOR, which is executed immediately upon creation of the promise object.
+
+Note that the EXECUTOR function itself takes two callback functions as arguments: one called
+resolve and another called reject; these will be called in the event that the PROMISE is
+resolved or rejected, respectively.
+
+const myPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        
+        // The resolve() function takes an argument, as well.
+        // Its argument is the value we want to return in the
+        // event that a promise is successfully resolved.
+        resolve([123, 456, 789]);
+    }, 1500)
+});
+
+All PROMISE OBJECTS inherit the then() and catch() methods, which are used to consume
+promises.
+
+The then() method allows us to add an EVENT HANDLER for the case where the promise
+is fulfilled successfully. It takes a callback function as an argument. The callback function
+dictates what should be done once the promise has been fulfilled successfully.
+
+The callback function inside the then() function takes an argument, and the interesting thing
+here is that the argument to the then() function's callback function is the value that is
+specified as an argument to the resolve() function (in other words, it is the value
+that is returned when the promise is fulfilled!).
+
+Interestingly, you can chain the catch() function with the then() function
+using the dot operator. The catch() function is called if and when the promise
+is rejected (i.e. fails to be fulfilled). It takes an argument called error, which
+receives the value returned by the reject() function (the value that the promise returns
+when it fails to be fulfilled)
+
+const getRecipe = recipeID =>
+{
+    return new Promise((resolve, reject) => 
+    {
+        setTimeout(ID => 
+        {
+            const recipe = {title: 'Fresh tomato pasta', publisher: 'Anon'};
+            resolve(`${ID}: ${recipe.title});
+        }, 1500, recipeID);
+    })
+};
+
+const getRelated = publisher =>
+{
+    return new Promise((resolve, reject) =>
+    {
+        setTimeout(pub =>
+        {
+            const recipe2 = {title: 'Italian Pizza', publisher: 'Anon'};
+            resolve(`${pub}: ${recipe2.title}`);
+        }, 1500, publisher);
+    });
+};
+
+/* The interesting thing about PROMISES is that you can chain then()
+methods repeatedly without having to nest them. So if you
+call a method that returns a promise inside of a then() method,
+you can immediately chain another then() method after it that will
+handle the new promise that was just returned.
+*/
+
+myPromise
+.then(IDs => {
+    console.log(IDs);
+
+    // Note that the getRecipe() method will return
+    // a promise, which will be handled in the next
+    // then() method that is chained to this one.
+    return getRecipe(IDs[2]);
+})
+.then(recipe =>
+{
+    return getRelated('Anon');
+}) // This then() handles the promise returned by getRecipe()
+.then(recipe =>
+{
+    console.log(recipe);
+})
+.catch(error =>
+{
+    console.log(error);
+});
+
+
+===== LECTURE: Async/Await =====
+
+In ES6, Async/Await was introduced to make it much easier to consume promises.
+
+Async/Await was designed to CONSUME promises, not to produce them.
+
+To use this functionality, we start by using the async keyword,
+then the function keyword:
+
+The async keyword specifies that this is an asynchronous function, i.e.
+one that keeps running in the background. The async function returns a Promise.
+
+async function getRecipesAW()
+{
+    // Inside an async function, we can have one or more
+    // await expressions.
+
+    // The await keyword tells JavaScript to stop the code that is part
+    // of the await expression from executing until the promise is fulfilled.
+
+    // If the promise is resolved (meaning it was successful)
+    // then the value of the await expression is the resolved value
+    // of the promise, which is assigned to the IDs variable.
+
+    // If the promise is rejected, an error will be thrown; if you
+    // want to handle that error, you have to include more code,
+    // but the lecture doesn't cover that
+
+
+    // To consume our first promise, for example, we can do the following:
+
+    const IDs = await getIDs;
+
+    const recipe = await getRecipe(IDs[2]);
+
+    const related = await getRelated('Anon');
+}
+
+getRecipesAW().then(result => console.log(`${result} is the best ever!`));
+
+Note that the await expression CAN ONLY BE USED INSIDE AN async FUNCTION!
+
+Basically, it just allows us to consume promises without having to use the then()
+syntax.
+
+You can use the then() method on an async function to capture the value
+that is returned using the return statement inside the async function.
+(Note that while an async function automatically returns a promise upon finishing its
+execution, you can force it to return some specific value by using a return statement)
+
+===== LECTURE: AJAX AND APIs =====
+
+- AJAX -
+
+AJAX stands for (A)synchronous (J)avascript (A)nd (X)ML. Essentially, it allows us to
+asynchronously communicate with remote servers.
+
+Suppose we have a JavaScript app running on the client (the browser). We want to get data
+from a remote server WITHOUT having to reload the entire page. With AJAX, we can do a simple
+HTTP GET request to a remote server (API), which will then send back a response containing the
+data we requested; this happens asynchronously in the background, as we learned before.
+
+AJAX also allows us to SEND data to the remote server (by using an HTTP POST request)
+using the same mechanism.
+
+- APIs -
+
+API stands for (A)pplication (P)rogramming (I)nterface.
+
+It's basically a piece of software that can be used by another piece of software to allow
+applications to talk to each other.
+
+Relative to web development, an API itself isn't a web server, it's more like a PART of the
+server. It's like an application that receives requests and sends back responses.
+
+There are TWO types of APIs that we can use in JavaScript:
+
+    - Your own APIs, i.e. from your own web server
+
+    - 3rd party APIs, i.e. Google Maps, Weather, etc
+
+
+===== LECTURE: MAKING AJAX CALLS WITH FETCH AND PROMISE =====
+
+We can now use what we know about Asynchronous JavaScript to request Weather data
+from a real weather API.
+
+To do this, we'll use a modern Web API called Fetch. By Web API, we mean things that are
+available to us in the browser, but aren't part of JavaScript itself.
+
+Fetch allows us to make AJAX requests in a simple way. With Fetch we 
+can do asynchronous web requests across the internet to fetch data from other servers or our own.
+
