@@ -46,6 +46,9 @@ import Search from './models/Search';
 // Import the Recipe class from Recipe.js
 import Recipe from './models/Recipe';
 
+// Import List class from List.js
+import List from './models/List';
+
 // We need to import ALL of the functions of our
 // searchView file.
 import * as searchView from './views/searchView';
@@ -298,3 +301,6 @@ elements.recipe.addEventListener('click', event =>
     }
     console.log(state.recipe);
 });
+
+const l = new List();
+window.l = l;
