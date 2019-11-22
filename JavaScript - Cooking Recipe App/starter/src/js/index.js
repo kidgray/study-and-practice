@@ -264,3 +264,37 @@ const controlRecipe = async () =>
 // correspond all the events you want the event listener to listen for, and call
 // the forEach() function on that array as follows:
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+// Handling recipe button clicks
+elements.recipe.addEventListener('click', event =>
+{
+    // We can't use the closest() method for this event handler
+    // because there are several elements that may be considered
+    // as "closest" to the recipe element (the increase button, decrease button,
+    // like button, etc..)
+
+    // Instead we will use the matches() method to test exactly which
+    // button was pressed.
+    // Note that the * next to an element in CSS means "that element or
+    // any of its children"
+
+    // We'll handle decreases first. Before we do anything, we 
+    // have to make sure the current servings value is greater
+    // than 1 (can't have 0 or less servings of a dish, doesn't make sense)
+    if (event.target.matches('.btn-decrease, .btn-decrease *'))
+    {
+        if (state.recipe.servings > 1)
+        {
+            // Decrease button is clicked
+            state.recipe.updateServings('dec');
+            recipeView.updateServingsIngredients(state.recipe);
+        }
+    }
+    else if (event.target.matches('.btn-increase, .btn-increase *'))
+    {
+        // Increase button is clicked
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+    console.log(state.recipe);
+});

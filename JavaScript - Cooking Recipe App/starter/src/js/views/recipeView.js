@@ -95,12 +95,12 @@ export const renderRecipe = recipe =>
                 <span class="recipe__info-text"> servings</span>
 
                 <div class="recipe__info-buttons">
-                    <button class="btn-tiny">
+                    <button class="btn-tiny btn-decrease">
                         <svg>
                             <use href="img/icons.svg#icon-circle-with-minus"></use>
                         </svg>
                     </button>
-                    <button class="btn-tiny">
+                    <button class="btn-tiny btn-increase">
                         <svg>
                             <use href="img/icons.svg#icon-circle-with-plus"></use>
                         </svg>
@@ -120,17 +120,6 @@ export const renderRecipe = recipe =>
         <div class="recipe__ingredients">
             <ul class="recipe__ingredient-list">
                 ${recipe.ingredients.map(element => createIngredient(element)).join('')}
-
-                <li class="recipe__item">
-                    <svg class="recipe__icon">
-                        <use href="img/icons.svg#icon-check"></use>
-                    </svg>
-                    <div class="recipe__count">1000</div>
-                    <div class="recipe__ingredient">
-                        <span class="recipe__unit">g</span>
-                        pasta
-                    </div>
-                </li>
 
             <button class="btn-small recipe__btn">
                 <svg class="search__icon">
@@ -161,3 +150,33 @@ export const renderRecipe = recipe =>
     // as the "recipe" element in base.js
     elements.recipe.insertAdjacentHTML('afterbegin', markup);
 };
+
+// We'll use this method to update the servings/ingredient amount
+// values displayed on the actual UI.
+export const updateServingsIngredients = recipe =>
+{
+    // Update servings
+    
+    // We of course can't have this in base.js
+    // since the servings value isn't displayed until
+    // we've actually selected a recipe.
+    document.querySelector('.recipe__info-data--people').textContent = recipe.servings;
+
+    // Update ingredient amounts
+
+    // We need to select all of the current recipe's ingredients from the UI
+    // To do this, we'll use querySelectorAll() to select all elements of the recipe__count
+    // class, which is the class of each ingredient element (see createIngredient() above)
+    
+    // Recall that querySelectorAll() returns a NODELIST, which we can transform
+    // into an array using Array.from() (ES6 method).
+
+    const ingredientElements = Array.from(document.querySelectorAll('.recipe__count'));
+
+    // Now we iterate through our new array of ingredients using forEach
+    ingredientElements.forEach((current, index) =>
+    {
+        current.textContent = formatCount(recipe.ingredients[index].amount);
+    });
+
+}

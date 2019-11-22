@@ -226,4 +226,19 @@ export default class Recipe
 
         this.ingredients = newIngredients;
     }
+
+    // New method that we will use to update the amount of servings.
+    updateServings(type)
+    {
+        // Update servings
+        const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1;
+        
+        // Update ingredient amounts
+        this.ingredients.forEach(ingredient => 
+            {
+                ingredient.amount *= (newServings / this.servings);
+            });
+
+        this.servings = newServings;
+    }
 }
