@@ -1,0 +1,35 @@
+{
+    // A preset is a collection of code transform plug-ins.
+    // These are like pieces of code that apply the actual
+    // transformations to our code.
+    "presets": 
+    [
+        // This "env" corresponds to the webpack-preset-env plugin that 
+        // we installed earlier.
+        ["env", 
+            {
+                // These are the "targets" for modification.
+                // In our case, they'll be the browsers.
+                "targets":
+                {
+                    // This is the property we'll store
+                    // the list of browsers we want to transform.
+                    // It should be an array.
+                    "browers":
+                    [
+                        // I guess Babel is set up to
+                        // detect phrases like this.
+                        // Basically it makes it so that
+                        // all our JavaScript code is
+                        // transformed so that it works with
+                        // the last 5 versions of all the browsers.
+                        // YOU CAN FIND EXAMPLES OF ACCEPTABLE STRINGS
+                        // FOR THE browsers PROPERTY ON THE BABEL DOCUMENTATION.
+                        "last 5 versions",
+                        "ie >= 8"
+                    ]
+                }
+            }
+        ]
+    ]
+}

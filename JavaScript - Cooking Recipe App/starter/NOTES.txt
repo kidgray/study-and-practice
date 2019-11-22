@@ -1,0 +1,292 @@
+- The project folder contains two folders:
+
+    - dist: the DISTRIBUTION folder. This is where we put the final
+    files, the ones that will be deployed and served to the client.
+
+    - src: the SOURCE folder, where the app's source code will go.
+    That means the JavaScript code and the HTML.
+
+
+===== LECTURE: Modern JavaScript Using NPM, Babel, ES6, Webpack =====
+
+Modern JavaScript uses many auxiliary tools and mechanisms to provide
+various functionalities to apps. Today, JavaScript isn't so much about the
+language itself as it is about the entire JavaScript ecosystem and environment
+we use to write it.
+
+In other words, we're still writing the same old JavaScript code as we always
+do, but we use it together with a bunch of tools that make it easier and better
+to work with.
+
+The foundation of all those tools is the Node.js and NPM ecosystem. In these, we can find
+all sorts of 3rd party open-source tools, libraries and frameworks needed for modern web development.
+
+When we say Libraries and Frameworks, we mean stuff like React and Angular, or libraries
+such as Lodash or Jquery.
+
+In order to use and share the aforementioned packages, we need some kind of tool that installs
+and manages them. 
+
+This is where NPM comes in. NPM stands for (N)ode (P)ackage (M)anager. It's a simple command
+line interface that allows us to install and manage JavaScript packages, as we mentioned.
+NPM also allows us to write scripts to use our development tools.
+
+One tool that we use in Modern JavaScript is Babel. What it does is simply convert ES6/ESNext
+code to ES5 code, which makes it so that all browsers are able to understand our code.
+
+We want to use ES6 Modules to make our code more modular and easier to manage; this functionality
+was implemented with ES6. Unfortunately, browsers don't yet fully support modules, so we need
+a functionality that allows us to bundle modules together into a single file (this is called
+a MODULE BUNDLER). The most popular module bundling tool out there is called WEBPACK.
+
+===== LECTURE: INSTALLING Node.js AND NPM =====
+
+- A package.json file is basically a file that contains information about a project for
+NPM.
+
+    - To create a package.json file, we use the command 
+        npm init
+    in the command line.
+
+    - To install packages using NPM, we use the command
+        npm install [package_name] 
+    in the command line
+
+    - Along with the npm install [package_name] command, we can use the option
+        --save-dev
+    to indicate that we want the package we're installing to be saved as a dependency of
+    our project.
+
+
+- Remember that there are essentially TWO types of Node.js packages:
+
+    1. LIBRARIES/FRAMEWORKS: These include such things as React and jQuery.
+    Things like React and jQuery really are dependencies, because we use
+    the code from the frameworks in our app.
+
+    2. DEVELOPMENT TOOLS: This includes things like Webpack.
+
+- We can use the 
+    --save
+option along with the npm install [package_name] command in order to denote that the
+package we are installing should be installed as a dependency (i.e. not as a development tool).
+This is necessary for libraries or frameworks such as React/jQuery.
+
+- The node_modules folder (found in projects that use Node.js) contains the "dependencies of
+your dependencies", i.e. the code upon which the dependencies (libraries/frameworks) you installed
+rely.
+
+- Typing the command
+    npm install
+into the console whilst on a folder that contains Node.js will reinstall all the dependencies
+of your project, as listed in the package.json file (that is, it will reinstall all the files
+relating to the packages you have installed as dependecies on your current project using NPM)
+
+- To uninstall a package using NPM, type
+    npm uninstall [package_name]
+into the console.
+
+- Note that whenever you install a package (using the --save or --save-dev options) through
+NPM, you are installing it LOCALLY (i.e. only for the project whose folder you're currently in).
+However, it's also possible to install a package GLOBALLY, meaning it is accessible from anywhere
+on your computer (and therefore to any project you create). To do this, we use the command
+    
+    npm install [package_name] --global 
+
+==== LECTURE: Configuring Webpack =====
+
+- Webpack is the most commonly used asset bundler. It doesn't only bundle JavaScript files,
+but rather ALL KINDS of assets such as JavaScript, CSS, and images.
+
+- Apparently, there's now a feature called zero configuration in Webpack, which means that
+you don't need to write a configuration file to use the package. It's enough to have
+a single src folder that contains one index.js file. Then, webpack will automatically create
+a dist (distribution) folder and put the bundle file(s) in there.
+
+    - However, the above functionality is really only for very small applications. It's
+    recommended that you write a config file for larger projects.
+
+NOTE THAT in the file package.json, we put the line
+
+    "dev": "webpack"
+
+Into the object assigned to the scripts property ("scripts" means NPM scripts).
+
+Basically, as soon as we execute the NPM script called dev, it will open up webpack,
+look up our webpack configuration (webpack.config.js) and do the configuration work that
+we specified in that file.
+
+WHY DO WE HAVE TO USE AN NPM SCRIPT TO DO THIS?
+This is just the best way to launch our locally installed dev dependency.
+
+- To LAUNCH AN NPM SCRIPT, use the terminal (console) command
+    npm run [script_name]
+
+- IN VS CODE, AN ABBREVIATION TOOL CALLED EMMET COMES PRE-INSTALLED.
+If you write an exclamation point (!) in an HTML file, it will produce a pre-formatted
+HTML skeleton for you.
+
+===== Lecture: The Webpack Development Server =====
+
+Webpack provides us with a Development Server that automatically bundles all our JavaScript
+files and reload the app in a browser whenever we change any of the bundled files.
+
+- IMPORTANT! -
+
+When you're running the DEVELOPMENT SERVER, Webpack will bundle your modules together,
+but it won't actually write it to a file on disk; instead, it will automatically inject
+it into the HTML file that corresponds to the page you're currently looking at.
+
+So in the project, that would mean the Webpack Dev Server is trying to inject the dynamically
+generated bundle into the index.html file that is located in the same folder as the output
+of the Webpack config file indicates (which in our case, is './dist/js'). The problem there
+is that our index.html file is not located inside the ./dist/js folder, but rather in the
+./dist folder (outside the js folder). This problem can be solved by simply making the output
+folder be './dist/' in the Webpack config file and changing the filename to 'js/bundle.js', which
+will result in the bundled file being put in the js folder as usual.
+
+MAIN IDEA: If you want the Webpack Dev Server to update your web pages successfully, you need
+to make it so that the output folder is the same as your webpack-dev-server's contentBase folder.
+
+-   With Webpack, we can inject HTML files from other folders into our working folder and 
+even add the <script></script> tags to it automatically! To do this, we use PLUG-INS.
+
+===== LECTURE: Setting up Babel =====
+
+The easiest way to install Babel is using NPM (command line). To do this, use the following
+command (while in the directory of the project you want to use Babel with):
+
+    npm install babel-core babel-preset-env babel-loader
+
+***NOTE: The above command installs 3 packages with the same command! You can do that.
+Just separate the packages with a space. No need for && or anything like that. ***
+
+babel-core: The core compiler of Babel.
+
+babel-preset-env: A Babel preset that will ensure that all modern JavaScript features are
+converted back to ES5.
+
+babel-loader: Needed for Webpack to actually load Babel files.
+
+We need a configuration file for Babel as well. This configuration file is called
+
+    .babelrc
+
+It should be in the root folder of your Project (the one that contains the src and dist folders)
+
+---- POLYFILLING ----
+
+Note that there are some snippets of code that CAN'T be converted from ES6 (or ESNext) to ES5;
+that's because these features simply didn't exist in ES5 in any form (Promises, array.from(), etc)
+
+    - Such features need to be POLYFILLED. A POLYFILL is basically code that mimics the
+    functionality of features such as Promises or methods such as array.from and implements
+    it in ES5, so that "conversion" from more advanced releases of JavaScript is possible.
+
+    - To use POLYFILLING, we need to install yet another package. Use the command
+    
+        npm install babel-polyfill --save
+
+    **NOTE: POLYFILLING implements code that will be ADDED to your actual code,
+    therefore it's not really a development tool, but a DEPENDENCY. That's why
+    we use the --save option when installing babel-polyfill.**
+
+Once babel-polyfill package is installed, you need to add it to your Webpack Configuration file
+as an entry point.
+
+===== LECTURE: Model-View-Controller Architecture =====
+
+The Model-View-Controller (MVC) pattern has the advantage that it DECOUPLES
+THE PRESENTATION LOGIC FROM THE APPLICATION LOGIC by applying a CONTROLLER BETWEEN 
+THE TWO THAT CONTROLS THE ENTIRE APP.
+
+----
+
+CONTROLLER: index.js
+
+MODEL: We will have one model (.js file) for each aspect/function of the App, for example
+
+    Search.js
+    Recipe.js
+    List.js
+    ...
+
+CONTROLLER: Each model (.js file) will have a view that corresponds to it, i.e.
+
+    searchView.js
+    recipeView.js
+    listView.js
+    ...
+
+----
+
+The MODELS are where we do things related actual JavaScript code, i.e. AJAX calls.
+
+The VIEWS are where we interact with the User Interface (GUI) to get data from it.
+
+The CONTROLLER is what handles communication between the MODELS and the VIEWS, so that 
+the two never have to directly communicate. HAVING A CONTROLLER ACT AS AN INTERMEDIARY FOR 
+COMMUNICATION BETWEEN MODEL AND VIEW MAKES THE APP MORE MODULAR AND EASIER TO MAINTAIN!
+
+Think back to that Django project in Software Engineering.
+
+===== LECTURE: How ES6 Modules Work =====
+
+DEFAULT exports are the ones we use when we only want to export
+ONE THING from a module.
+
+
+===== LECTURE: API Calls =====
+
+To use an API, often you will need an API KEY, which is like
+a password that's given by the creator(s) of the API to individual users.
+
+    - An API key works as a unique identifier that tracks each user's
+    requests from the API. This is what most API makers use to charge you
+    for using their API.
+
+
+===== LECTURE: Building the Search Model =====
+
+We're going to use ES6 modules for this.
+
+===== LECTURE: Building the Search Controller =====
+
+Each model and view should get their own .js file, but it's easiest to put
+every controller into index.js (the global app controller).
+
+Things like the current recipe, the current cooking time, the current query, the current
+shopping list, etc, define the APPLICATION STATE. We want all of this data (the STATE data)
+to be in one central place in our app, i.e. one specific variable in our object.
+
+- Redux is a library that is used together with React. Redux is used for managing the
+state of your app.
+
+===== LECTURE: Building the Search View =====
+
+NOTE THAT 
+
+    - There SHOULD be semicolons after export statements and 
+    function declarations alike.
+
+    - Use BRACKETS ({}) in your arrow functions if you have no intention
+    of returning anything from a function, i.e. in functions that perform
+    some simple task and do nothing else (see clearInput() in searchView.js)
+
+
+===== LECTURE: Building a Simple AJAX Spinner =====
+
+Note that this Spinner should go in both the
+results column and the main column of the app, so it
+should be coded for reusability.
+
+For this reason, we put it into base.js.
+
+===== LECTURE: Working on the Recipe Model =====
+
+===== LECTURE: Creating the Recipe Controller =====
+
+In the URL, everything that comes after the hash symbol (#) is called "the hash".
+
+There's an event in JavaScript called the HASH CHANGE EVENT that occurs whenever
+the hash in the URL changes (as the name implies).
