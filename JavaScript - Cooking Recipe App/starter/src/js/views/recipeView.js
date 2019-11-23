@@ -68,7 +68,7 @@ const createIngredient = ingredient =>
 // Of course, as per usual, the most important function
 // we want to export here is the one that actually renders
 // our recipe on the UI
-export const renderRecipe = recipe =>
+export const renderRecipe = (recipe, isLiked) =>
 {
     // The HTML markup that we want to render
     const markup = 
@@ -110,7 +110,7 @@ export const renderRecipe = recipe =>
             </div>
             <button class="recipe__love">
                 <svg class="header__likes">
-                    <use href="img/icons.svg#icon-heart-outlined"></use>
+                    <use href="img/icons.svg#icon-heart${isLiked ? "" : "-outlined"}"></use>
                 </svg>
             </button>
         </div>

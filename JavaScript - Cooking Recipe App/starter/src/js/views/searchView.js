@@ -91,12 +91,12 @@ export const highlightSelected = id =>
     // because search results don't appear unless
     // a search has actually been conducted, so we
     // have to do it here
-    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+    document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active');
 }
 
 // We can use this function to limit the length of
 // the title of a recipe in our UI.
-const limitRecipeTitle = (title, limit = 17) =>
+export const limitRecipeTitle = (title, limit = 17) =>
 {
             // We'll use this variable to store our
             // new title for the recipe.

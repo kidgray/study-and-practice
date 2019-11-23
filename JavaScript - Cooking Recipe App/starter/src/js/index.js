@@ -62,6 +62,9 @@ import * as recipeView from './views/recipeView';
 // Import all functions of the listView file
 import * as listView from './views/listView';
 
+// Import all functions of the likesView file
+import * as likesView from './views/likesView';
+
 // We'll also import the DOM elements object we declared in
 // views/base.js. This file will serve as the central location
 // of all the elements we will need to select on our DOM. It's best
@@ -251,7 +254,7 @@ const controlRecipe = async () =>
             clearSpinner();
 
             // Use renderRecipe() to show the recipe
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
         }
         catch (error)
         {
@@ -333,6 +336,13 @@ elements.shoppingList.addEventListener('click', event =>
 
 /* LIKE CONTROLLER */
 
+/* TESTING MATERIALS*/
+
+state.likes = new Likes();
+likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+/* END OF TESTING MATERIALS */
+
 const controlLike = () =>
 {
     // If there isn't a likes array in
@@ -356,9 +366,10 @@ const controlLike = () =>
         );
 
         // 2. Toggle the Like button
+        likesView.toggleLikeBtn(true);
 
         // 3. Add Like to the UI list of liked recipes
-        console.log(state.likes);
+        likesView.renderLike(newLike);
     }
     else
     {
@@ -368,11 +379,18 @@ const controlLike = () =>
         state.likes.deleteLike(currentID);
 
         // 2. Toggle the Like button
+        likesView.toggleLikeBtn(false);
 
         // 3. Remove Like from the UI list of liked recipes
-        console.log(state.likes);
+        likesView.deleteLike(currentID);
     }
 
+    // We call this each time we like
+    // (or more importantly, unlike) something.
+    // This way we can check whether there are any
+    // Liked recipes or not; if not, the Likes menu
+    // should vanish.
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
 }
 
 // Handling recipe button clicks
