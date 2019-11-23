@@ -21,6 +21,12 @@ export default class Likes
 
         this.likes.push(like);
 
+        // Whenever we change the likes array,
+        // we should save it to local storage
+        // so we can persist our data even
+        // when pages reload (using localstorage)
+        this.persistData();
+
         return like;
     };
 
@@ -34,6 +40,9 @@ export default class Likes
         // Remove the element from the likes array using the splice() method
         // and the index we found above.
         this.likes.splice(index, 1);
+
+        // Use localStorage API to persist data
+        this.persistData();
     };
 
     // Returns true if the recipe with the specified ID
@@ -56,4 +65,31 @@ export default class Likes
     {
         return this.likes.length;
     };
+
+    // Persist data using localStorage API
+    persistData()
+    {
+        // Convert the likes array to JSON so we
+        // can persist it w/ localStorage (setItem() method takes only
+        // string arguments!)
+        localStorage.setItem('likes', JSON.stringify(this.likes));
+    }
+
+    // Read in data from local Storage
+    readStorage()
+    {
+        // Get the likes array from localStorage, converting it
+        // back from JSON into an actual array like it's supposed
+        // to be.
+        const storage = JSON.parse(localStorage.getItem('likes'));
+
+        // localStorage.getItem() will return null if there's no item
+        // corresponding to the key that was passed in; we have to
+        // check for this! Make sure there's actually something in
+        // the storage variable.
+
+        // Restore the persisted likes from localStorage into
+        // our actual state.
+        if (storage) this.likes = storage;
+    }
 }

@@ -9,6 +9,8 @@ const formatCount = count =>
     {
         // Example: 2.5 --> 2 1/2
 
+        //
+
         // Remember DESTRUCTURING allows you to declare two variables at once!
         // The ... operator is called the SPREAD OPERATOR.
 
