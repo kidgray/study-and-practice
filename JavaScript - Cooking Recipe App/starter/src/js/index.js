@@ -49,6 +49,9 @@ import Recipe from './models/Recipe';
 // Import List class from List.js
 import List from './models/List';
 
+// Import Likes class from Likes.js
+import Likes from './models/Likes';
+
 // We need to import ALL of the functions of our
 // searchView file.
 import * as searchView from './views/searchView';
@@ -328,6 +331,50 @@ elements.shoppingList.addEventListener('click', event =>
     }
 });
 
+/* LIKE CONTROLLER */
+
+const controlLike = () =>
+{
+    // If there isn't a likes array in
+    // the state, create a new Likes object
+    if (!state.likes) state.likes = new Likes();
+
+    // We need the ID of the recipe that's currently
+    // selected, so we get that from the state!
+    const currentID = state.recipe.id;
+
+    if (!state.likes.isLiked(currentID))
+    {
+        // User HAS NOT yet liked current recipe
+
+        // 1. Add Like to the state
+        const newLike = state.likes.addLike(
+            currentID,
+            state.recipe.title,
+            state.recipe.author,
+            state.recipe.img
+        );
+
+        // 2. Toggle the Like button
+
+        // 3. Add Like to the UI list of liked recipes
+        console.log(state.likes);
+    }
+    else
+    {
+        // User HAS liked current recipe
+
+        // 1. Remove Liked from state
+        state.likes.deleteLike(currentID);
+
+        // 2. Toggle the Like button
+
+        // 3. Remove Like from the UI list of liked recipes
+        console.log(state.likes);
+    }
+
+}
+
 // Handling recipe button clicks
 elements.recipe.addEventListener('click', event =>
 {
@@ -367,6 +414,14 @@ elements.recipe.addEventListener('click', event =>
         // If the add to shopping list button is pressed, call
         // the shopping list controller!
         controlList();
+    }
+    // Here's the event listener for the button that
+    // adds a recipe to the list of Liked recipes!
+    else if (event.target.matches('.recipe__love, .recipe__love *'))
+    {
+        // If the Like button is clicked, call the Like
+        // Controller
+        controlLike();
     }
 
     console.log(state.recipe);

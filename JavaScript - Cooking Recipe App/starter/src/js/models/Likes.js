@@ -6,7 +6,7 @@ export default class Likes
     constructor()
     {
         this.likes = [];
-    }
+    };
 
     // Add a recipe to the list of liked recipes
     addLike(id, title, author, img)
@@ -33,8 +33,8 @@ export default class Likes
 
         // Remove the element from the likes array using the splice() method
         // and the index we found above.
-        this.index.splice(index, 1);
-    }
+        this.likes.splice(index, 1);
+    };
 
     // Returns true if the recipe with the specified ID
     // is liked, false otherwise
@@ -49,11 +49,11 @@ export default class Likes
         // if it is, we return true
         // if it isn't, return false
         return this.likes.findIndex(element => element.id === id) !== -1;
-    }
+    };
 
     // Returns the number of liked recipes
     getNumLikes()
     {
         return this.likes.length;
-    }
+    };
 }
