@@ -1,4 +1,4 @@
-// Global app controller
+/* GLOBAL APP CONTROLLER */
 
 // Example of a basic import statement in ES6.
 // Recall that when we import a module in JavaScript,
