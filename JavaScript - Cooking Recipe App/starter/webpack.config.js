@@ -36,7 +36,7 @@ module.exports =
     [
         // It's possible to have multiple entry points. Simply
         // pass them in as an array.
-        'babel-polyfill',
+        '@babel/polyfill',
         './src/js/index.js',
     ],
 

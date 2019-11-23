@@ -82,9 +82,6 @@ import { elements, renderSpinner, clearSpinner } from './views/base';
 */
 const state = {};
 
-// TESTING -- DELETE ME
-window.state = state;
-
 // We need a function that will be called from within the callback function
 // of the event listener for the search bar.
 // Note that you can put the async keyword next to the parameter list in an arrow
@@ -190,10 +187,6 @@ elements.searchResPages.addEventListener('click', event =>
 
 /* RECIPE CONTROLLER */
 
-//const recipe = new Recipe(559251);
-//recipe.getRecipe();
-//console.log(recipe);
-
 // The actual recipe controller method
 const controlRecipe = async () =>
 {
@@ -205,7 +198,6 @@ const controlRecipe = async () =>
 
     // Let's remove the hash symbol, since all we want is the ID.
     const id = window.location.hash.replace('#', '');
-    console.log(id);
 
     // Now let's check whether we have an ID
     if (id)
@@ -243,12 +235,8 @@ const controlRecipe = async () =>
             // IN THE SPOONACULAR API ANYWAY!
 
             //state.recipe.parseIngredients();
-
             // *******************************************
 
-            // Render the recipe
-            console.log(state.recipe);
-            
             // As before, we clear the spinner before actually
             // displaying the recipe
             clearSpinner();
@@ -451,9 +439,4 @@ elements.recipe.addEventListener('click', event =>
         // Controller
         controlLike();
     }
-
-    console.log(state.recipe);
 });
-
-const l = new List();
-window.l = l;

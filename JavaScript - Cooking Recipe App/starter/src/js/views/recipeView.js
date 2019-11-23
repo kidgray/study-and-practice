@@ -9,7 +9,20 @@ const formatCount = count =>
     {
         // Example: 2.5 --> 2 1/2
 
-        //
+        // Round the numbers we get
+        // so we don't have any problems
+        // when using the Fraction() method
+
+        // Math.round normally returns only integer values, but
+        // there's a work around for that. You can simply pass
+        // in the value
+
+        // (num * 10^n) / 10^n
+
+        // Where n is the number of decimal places you want
+        // in your rounded number. This will return a float
+        // value.
+        const newCount = Math.round((count * 10000) / 10000);
 
         // Remember DESTRUCTURING allows you to declare two variables at once!
         // The ... operator is called the SPREAD OPERATOR.
@@ -18,20 +31,20 @@ const formatCount = count =>
         // whole and decimal parts of the count, respectively. We assign the parts
         // to the proper variable using split() and then use map() to parse them to
         // integers (remember they start out as strings).
-        const [int, dec] = count.toString().split('.').map(element => parseInt(element, 10));
+        const [int, dec] = newCount.toString().split('.').map(element => parseInt(element, 10));
 
         // If there's no decimal portion to the number, we simply return the count
-        if (!dec) return count;
+        if (!dec) return newCount;
 
         // If the integer part of the number is zero
         if (int === 0)
         {
-            const fraction = new Fraction(count);
+            const fraction = new Fraction(newCount);
             return `${fraction.numerator}/${fraction.denominator}`;
         }
         else
         {
-            const fraction = new Fraction(count - int);
+            const fraction = new Fraction(newCount - int);
             return `${int} ${fraction.numerator}/${fraction.denominator}`;
         }
     }
