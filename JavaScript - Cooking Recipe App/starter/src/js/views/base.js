@@ -9,7 +9,8 @@ export const elements =
     searchResults: document.querySelector('.results'),
     searchResultList: document.querySelector('.results__list'),
     searchResPages: document.querySelector('.results__pages'),
-    recipe: document.querySelector('.recipe')
+    recipe: document.querySelector('.recipe'),
+    shoppingList: document.querySelector('.shopping__list')
 };
 
 // We can't make a querySelector property for the spinner

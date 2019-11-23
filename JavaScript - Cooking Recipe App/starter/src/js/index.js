@@ -56,6 +56,9 @@ import * as searchView from './views/searchView';
 // Import all functions of the recipeView file
 import * as recipeView from './views/recipeView';
 
+// Import all functions of the listView file
+import * as listView from './views/listView';
+
 // We'll also import the DOM elements object we declared in
 // views/base.js. This file will serve as the central location
 // of all the elements we will need to select on our DOM. It's best
@@ -72,6 +75,9 @@ import { elements, renderSpinner, clearSpinner } from './views/base';
 * - Liked recipes
 */
 const state = {};
+
+// TESTING -- DELETE ME
+window.state = state;
 
 // We need a function that will be called from within the callback function
 // of the event listener for the search bar.
@@ -268,6 +274,60 @@ const controlRecipe = async () =>
 // the forEach() function on that array as follows:
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+/* LIST CONTROLLER */
+const controlList = () =>
+{
+    // Create a new list IF ONE DOES NOT EXIST YET
+    if (!state.list) state.list = new List();
+
+    // Add each ingredient of the currently selected
+    // recipe to the list and UI
+    state.recipe.ingredients.forEach(current =>
+        {
+           const item = state.list.addItem(current.amount, current.unit, current.name);
+           
+           // Immediately render the current item after adding it to our shopping list
+           listView.renderItem(item);
+        });
+};
+
+// Handle delete and update list item events
+elements.shoppingList.addEventListener('click', event =>
+{
+    // We need the item ID of the shopping list item
+    // we clicked on.
+    const id = event.target.closest('.shopping__item').dataset.itemid;
+
+    // Handle the delete button by using the matches()
+    // method to check if our target matches the 
+    // shopping__delete class, which corresponds to the
+    // delete button on a list item
+    if (event.target.matches('.shopping__delete, .shopping__delete *'))
+    {
+        // Delete item from state
+        state.list.deleteItem(id);
+
+        // Delete from UI
+        listView.deleteItem(id);
+    }
+    // Handle the update list item event
+    else if (event.target.matches('.shopping__count-value, .shopping__count-value *'))
+    {
+        // We need to read in the value that's in the input
+        // field of the element that was clicked.
+        // We can use event.target, recall that event.target
+        // refers to the element that was clicked (since in this case
+        // the event we're listening for is the 'click' event)
+        const val = parseFloat(event.target.value, 10);
+
+        // Update the amount using the updateAmount()
+        // method from the List model, but only if the
+        // value is greater than 0 (negative or 0 values don't make sense
+        // for ingredient amounts)
+        if (val > 0) state.list.updateAmount(id, val);
+    }
+});
+
 // Handling recipe button clicks
 elements.recipe.addEventListener('click', event =>
 {
@@ -299,6 +359,16 @@ elements.recipe.addEventListener('click', event =>
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
     }
+    // Here we insert the event listener for the button that
+    // adds a recipe's ingredients to the shopping list. We put
+    // this here because that button is part of the Recipe's view
+    else if (event.target.matches('.recipe__btn--add, .recipe__btn--add *'))
+    {
+        // If the add to shopping list button is pressed, call
+        // the shopping list controller!
+        controlList();
+    }
+
     console.log(state.recipe);
 });
 
